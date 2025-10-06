@@ -10,6 +10,9 @@ from datetime import datetime
 from collections import deque
 from decimal import Decimal, ROUND_HALF_UP
 
+# Import Redis configuration
+import redis_config
+
 LIST_MARKETS = ['BTC', 'ETH', 'UNI', 'BNB']
 
 class WebSocketDataCollector:
@@ -20,11 +23,12 @@ class WebSocketDataCollector:
         self.base_url = "wss://ws.pacifica.fi/ws"
         self.api_base_url = "https://api.pacifica.fi/api/v1"
         self.api_info_base_url = "https://api.pacifica.fi/api/v1/info"
+        
+        # Initialize Redis client
+        self.redis = redis_config.redis_manager
 
         # WebSocket connections
         self.combined_ws = None
-
-        # Connection management
         self.is_connected = False
         self.should_reconnect = True
         self.reconnect_interval = 5
@@ -369,7 +373,7 @@ class WebSocketDataCollector:
                     self.flush_trades_buffer(symbol)
 
     def flush_prices_buffer(self, symbol):
-        """Flush price buffer for a specific symbol."""
+        """Flush price buffer for a specific symbol to both CSV and Redis."""
         file_path = os.path.join('PACIFICA_data', f'prices_{symbol}.csv')
         file_exists = os.path.isfile(file_path)
 
@@ -382,23 +386,40 @@ class WebSocketDataCollector:
                 count = 0
                 while self.prices_buffer[symbol]:
                     record = self.prices_buffer[symbol].popleft()
+                    
+                    # Write to CSV
                     writer.writerow([
                         record['timestamp'],
                         record['bid'],
                         record['ask'],
                         f"{record['mid']:.6f}"
                     ])
+                    
+                    # Save to Redis
+                    price_key = f"price:{symbol}:{record['timestamp']}"
+                    self.redis.redis_client.hset(price_key, mapping={
+                        'timestamp': str(record['timestamp']),
+                        'bid': str(record['bid']),
+                        'ask': str(record['ask']),
+                        'mid': f"{record['mid']:.6f}",
+                        'symbol': symbol
+                    })
+                    # Set expiration (1 day for price data)
+                    self.redis.redis_client.expire(price_key, 86400)
+                    
+                    # Add to sorted set for time-based queries
+                    self.redis.redis_client.zadd(
+                        f"prices:{symbol}:timestamps", 
+                        {str(record['timestamp']): float(record['timestamp'])}
+                    )
+                    
                     count += 1
 
                 if count > 0:
-                    print(f"Flushed {count} price records for {symbol}")
+                    print(f"Flushed {count} price records for {symbol} to Redis and CSV")
 
         except Exception as e:
             print(f"Error flushing prices for {symbol}: {e}")
-
-    def flush_orderbook_buffer(self, symbol):
-        """Flush order book buffer for a specific symbol."""
-        file_path = os.path.join('PACIFICA_data', f'orderbook_{symbol}.csv')
         file_exists = os.path.isfile(file_path)
 
         try:
@@ -416,12 +437,15 @@ class WebSocketDataCollector:
                 count = 0
                 while self.orderbook_buffer[symbol]:
                     record = self.orderbook_buffer[symbol].popleft()
-
-                    # Prepare row data
-                    row = [record['timestamp'], record.get('lastUpdateId', '')]
-
-                    # Add bid data
+                    timestamp = record['timestamp']
+                    update_id = record.get('lastUpdateId', '')
                     bids = record.get('bids', [])
+                    asks = record.get('asks', [])
+
+                    # Prepare row data for CSV
+                    row = [timestamp, update_id]
+                    
+                    # Add bid data
                     for i in range(self.order_book_levels):
                         if i < len(bids):
                             row.extend([f"{bids[i][0]:.6f}", f"{bids[i][1]:.6f}"])
@@ -429,24 +453,60 @@ class WebSocketDataCollector:
                             row.extend(['', ''])  # Empty if no data at this level
 
                     # Add ask data
-                    asks = record.get('asks', [])
                     for i in range(self.order_book_levels):
                         if i < len(asks):
                             row.extend([f"{asks[i][0]:.6f}", f"{asks[i][1]:.6f}"])
                         else:
                             row.extend(['', ''])  # Empty if no data at this level
 
+                    # Write to CSV
                     writer.writerow(row)
+                    
+                    # Save to Redis
+                    ob_key = f"orderbook:{symbol}:{timestamp}"
+                    ob_data = {
+                        'timestamp': str(timestamp),
+                        'lastUpdateId': str(update_id),
+                        'symbol': symbol,
+                        'bids': json.dumps(bids),
+                        'asks': json.dumps(asks)
+                    }
+                    
+                    # Store in Redis
+                    self.redis.redis_client.hset(ob_key, mapping=ob_data)
+                    # Set expiration (1 hour for order book snapshots)
+                    self.redis.redis_client.expire(ob_key, 3600)
+                    
+                    # Add to sorted set for time-based queries
+                    self.redis.redis_client.zadd(
+                        f"orderbook:{symbol}:timestamps", 
+                        {str(timestamp): float(timestamp)}
+                    )
+                    
+                    # Store best bid/ask separately for quick access
+                    if bids and asks:
+                        best_bid = bids[0][0] if bids else 0
+                        best_ask = asks[0][0] if asks else 0
+                        self.redis.redis_client.hset(
+                            f"orderbook:{symbol}:best",
+                            mapping={
+                                'bid': str(best_bid),
+                                'ask': str(best_ask),
+                                'spread': str(best_ask - best_bid) if best_bid and best_ask else '0',
+                                'timestamp': str(timestamp)
+                            }
+                        )
+                    
                     count += 1
 
                 if count > 0:
-                    print(f"Flushed {count} order book records for {symbol}")
+                    print(f"Flushed {count} order book records for {symbol} to Redis and CSV")
 
         except Exception as e:
             print(f"Error flushing order book for {symbol}: {e}")
 
     def flush_trades_buffer(self, symbol):
-        """Flush trades buffer for a specific symbol."""
+        """Flush trades buffer for a specific symbol to both CSV and Redis."""
         file_path = os.path.join('PACIFICA_data', f'trades_{symbol}.csv')
         file_exists = os.path.isfile(file_path)
 
@@ -459,17 +519,64 @@ class WebSocketDataCollector:
                 count = 0
                 while self.trades_buffer[symbol]:
                     record = self.trades_buffer[symbol].popleft()
+                    trade_id = record['id']
+                    timestamp = record['timestamp']
+                    
+                    # Write to CSV
                     writer.writerow([
-                        record['id'],
-                        record['timestamp'],
+                        trade_id,
+                        timestamp,
                         record['side'],
                         f"{record['price']:.6f}",
                         f"{record['quantity']:.6f}"
                     ])
+                    
+                    # Save to Redis
+                    trade_key = f"trade:{symbol}:{trade_id}"
+                    trade_data = {
+                        'id': trade_id,
+                        'timestamp': str(timestamp),
+                        'side': record['side'],
+                        'price': f"{record['price']:.6f}",
+                        'quantity': f"{record['quantity']:.6f}",
+                        'symbol': symbol,
+                        'quote_quantity': f"{float(record['price']) * float(record['quantity']):.8f}"
+                    }
+                    
+                    # Store in Redis
+                    self.redis.redis_client.hset(trade_key, mapping=trade_data)
+                    # Set expiration (7 days for trades)
+                    self.redis.redis_client.expire(trade_key, 604800)
+                    
+                    # Add to sorted set for time-based queries
+                    self.redis.redis_client.zadd(
+                        f"trades:{symbol}:timestamps", 
+                        {str(timestamp): float(timestamp)}
+                    )
+                    
+                    # Update latest trade info
+                    self.redis.redis_client.hset(
+                        f"trades:{symbol}:latest",
+                        mapping={
+                            'id': trade_id,
+                            'price': trade_data['price'],
+                            'quantity': trade_data['quantity'],
+                            'side': record['side'],
+                            'timestamp': str(timestamp)
+                        }
+                    )
+                    
+                    # Update 24h trade stats (simplified example)
+                    self.redis.redis_client.hincrbyfloat(
+                        f"trades:{symbol}:24h:volume", 
+                        'total_volume', 
+                        float(trade_data['quantity'])
+                    )
+                    
                     count += 1
 
                 if count > 0:
-                    print(f"Flushed {count} trade records for {symbol}")
+                    print(f"Flushed {count} trade records for {symbol} to Redis and CSV")
 
         except Exception as e:
             print(f"Error flushing trades for {symbol}: {e}")
