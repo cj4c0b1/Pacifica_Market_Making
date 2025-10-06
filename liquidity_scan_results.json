@@ -1,0 +1,347 @@
+{
+  "scan_timestamp": "2025-10-06T18:58:01.796357",
+  "total_markets_analyzed": 15,
+  "tier_breakdown": {
+    "tier1_count": 1,
+    "tier2_count": 6,
+    "tier3_count": 8
+  },
+  "tier1_markets": [
+    {
+      "symbol": "kPEPE",
+      "mid_price": 0.01029,
+      "spread_bps": 9.999999999999616,
+      "volume_24h": 2078076.936092,
+      "open_interest": 24735190.0,
+      "liquidity_score": 38.100459744368386,
+      "mm_score": 67.04476561655258,
+      "tier": "Tier 1",
+      "timestamp": "2025-10-06T18:58:01.795566"
+    }
+  ],
+  "tier2_markets": [
+    {
+      "symbol": "DOGE",
+      "mid_price": 0.265225,
+      "spread_bps": 9.999999999997156,
+      "volume_24h": 4658504.74874,
+      "open_interest": 7386892.0,
+      "liquidity_score": 34.54353259496284,
+      "mm_score": 54.77005569244426,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795555"
+    },
+    {
+      "symbol": "XRP",
+      "mid_price": 3.0303,
+      "spread_bps": 9.999999999999403,
+      "volume_24h": 5853324.449828,
+      "open_interest": 393948.76,
+      "liquidity_score": 33.7284568073126,
+      "mm_score": 45.6303180160009,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795557"
+    },
+    {
+      "symbol": "SOL",
+      "mid_price": 235.64,
+      "spread_bps": 9.99999999999955,
+      "volume_24h": 60674044.7764,
+      "open_interest": 43741.56,
+      "liquidity_score": 50.03499324800045,
+      "mm_score": 45.06998649600067,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795560"
+    },
+    {
+      "symbol": "ETH",
+      "mid_price": 4675.3,
+      "spread_bps": 9.999999999997796,
+      "volume_24h": 280609088.04284,
+      "open_interest": 4117.8974,
+      "liquidity_score": 50.003294317922204,
+      "mm_score": 45.00658863584331,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795550"
+    },
+    {
+      "symbol": "BNB",
+      "mid_price": 1223.345,
+      "spread_bps": 9.999999999999028,
+      "volume_24h": 12305027.83244,
+      "open_interest": 1754.448,
+      "liquidity_score": 50.00140355840097,
+      "mm_score": 45.002807116801456,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795553"
+    },
+    {
+      "symbol": "BTC",
+      "mid_price": 125282.5,
+      "spread_bps": 9.999999999997769,
+      "volume_24h": 775462385.78608,
+      "open_interest": 405.11072,
+      "liquidity_score": 50.00032408857823,
+      "mm_score": 45.00064817715535,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795562"
+    }
+  ],
+  "tier3_markets": [
+    {
+      "symbol": "AAVE",
+      "mid_price": 299.26,
+      "spread_bps": 10.000000000000128,
+      "volume_24h": 2914485.2372,
+      "open_interest": 2028.44,
+      "liquidity_score": 21.659563700799872,
+      "mm_score": 32.490156927199806,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795569"
+    },
+    {
+      "symbol": "SUI",
+      "mid_price": 3.65395,
+      "spread_bps": 9.999999999998527,
+      "volume_24h": 2774696.6421,
+      "open_interest": 311381.4,
+      "liquidity_score": 21.347891688401475,
+      "mm_score": 32.1463900926022,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795559"
+    },
+    {
+      "symbol": "LINK",
+      "mid_price": 22.99,
+      "spread_bps": 10.000000000000028,
+      "volume_24h": 2047840.796,
+      "open_interest": 24188.4,
+      "liquidity_score": 18.210713903999974,
+      "mm_score": 27.325746215999956,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795539"
+    },
+    {
+      "symbol": "AVAX",
+      "mid_price": 30.7315,
+      "spread_bps": 9.999999999998238,
+      "volume_24h": 1690425.86456,
+      "open_interest": 33471.66,
+      "liquidity_score": 16.788480786241763,
+      "mm_score": 25.196109843362642,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795547"
+    },
+    {
+      "symbol": "LDO",
+      "mid_price": 1.2567,
+      "spread_bps": 9.999999999999114,
+      "volume_24h": 1335468.74206,
+      "open_interest": 193354.0,
+      "liquidity_score": 15.496558168240888,
+      "mm_score": 23.32217885236133,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795335"
+    },
+    {
+      "symbol": "LTC",
+      "mid_price": 119.53,
+      "spread_bps": 9.999999999999787,
+      "volume_24h": 1356111.6216,
+      "open_interest": 3650.82,
+      "liquidity_score": 15.427367142400215,
+      "mm_score": 23.14251104160032,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795571"
+    },
+    {
+      "symbol": "UNI",
+      "mid_price": 8.3605,
+      "spread_bps": 9.999999999998133,
+      "volume_24h": 1310427.0128,
+      "open_interest": 39265.0,
+      "liquidity_score": 15.273120051201868,
+      "mm_score": 22.9253860768028,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795568"
+    },
+    {
+      "symbol": "CRV",
+      "mid_price": 0.78765,
+      "spread_bps": 9.999999999998956,
+      "volume_24h": 676166.57486,
+      "open_interest": 386463.2,
+      "liquidity_score": 13.013836859441046,
+      "mm_score": 19.675340569161566,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795564"
+    }
+  ],
+  "all_markets_sorted": [
+    {
+      "symbol": "kPEPE",
+      "mid_price": 0.01029,
+      "spread_bps": 9.999999999999616,
+      "volume_24h": 2078076.936092,
+      "open_interest": 24735190.0,
+      "liquidity_score": 38.100459744368386,
+      "mm_score": 67.04476561655258,
+      "tier": "Tier 1",
+      "timestamp": "2025-10-06T18:58:01.795566"
+    },
+    {
+      "symbol": "DOGE",
+      "mid_price": 0.265225,
+      "spread_bps": 9.999999999997156,
+      "volume_24h": 4658504.74874,
+      "open_interest": 7386892.0,
+      "liquidity_score": 34.54353259496284,
+      "mm_score": 54.77005569244426,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795555"
+    },
+    {
+      "symbol": "XRP",
+      "mid_price": 3.0303,
+      "spread_bps": 9.999999999999403,
+      "volume_24h": 5853324.449828,
+      "open_interest": 393948.76,
+      "liquidity_score": 33.7284568073126,
+      "mm_score": 45.6303180160009,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795557"
+    },
+    {
+      "symbol": "SOL",
+      "mid_price": 235.64,
+      "spread_bps": 9.99999999999955,
+      "volume_24h": 60674044.7764,
+      "open_interest": 43741.56,
+      "liquidity_score": 50.03499324800045,
+      "mm_score": 45.06998649600067,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795560"
+    },
+    {
+      "symbol": "ETH",
+      "mid_price": 4675.3,
+      "spread_bps": 9.999999999997796,
+      "volume_24h": 280609088.04284,
+      "open_interest": 4117.8974,
+      "liquidity_score": 50.003294317922204,
+      "mm_score": 45.00658863584331,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795550"
+    },
+    {
+      "symbol": "BNB",
+      "mid_price": 1223.345,
+      "spread_bps": 9.999999999999028,
+      "volume_24h": 12305027.83244,
+      "open_interest": 1754.448,
+      "liquidity_score": 50.00140355840097,
+      "mm_score": 45.002807116801456,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795553"
+    },
+    {
+      "symbol": "BTC",
+      "mid_price": 125282.5,
+      "spread_bps": 9.999999999997769,
+      "volume_24h": 775462385.78608,
+      "open_interest": 405.11072,
+      "liquidity_score": 50.00032408857823,
+      "mm_score": 45.00064817715535,
+      "tier": "Tier 2",
+      "timestamp": "2025-10-06T18:58:01.795562"
+    },
+    {
+      "symbol": "AAVE",
+      "mid_price": 299.26,
+      "spread_bps": 10.000000000000128,
+      "volume_24h": 2914485.2372,
+      "open_interest": 2028.44,
+      "liquidity_score": 21.659563700799872,
+      "mm_score": 32.490156927199806,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795569"
+    },
+    {
+      "symbol": "SUI",
+      "mid_price": 3.65395,
+      "spread_bps": 9.999999999998527,
+      "volume_24h": 2774696.6421,
+      "open_interest": 311381.4,
+      "liquidity_score": 21.347891688401475,
+      "mm_score": 32.1463900926022,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795559"
+    },
+    {
+      "symbol": "LINK",
+      "mid_price": 22.99,
+      "spread_bps": 10.000000000000028,
+      "volume_24h": 2047840.796,
+      "open_interest": 24188.4,
+      "liquidity_score": 18.210713903999974,
+      "mm_score": 27.325746215999956,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795539"
+    },
+    {
+      "symbol": "AVAX",
+      "mid_price": 30.7315,
+      "spread_bps": 9.999999999998238,
+      "volume_24h": 1690425.86456,
+      "open_interest": 33471.66,
+      "liquidity_score": 16.788480786241763,
+      "mm_score": 25.196109843362642,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795547"
+    },
+    {
+      "symbol": "LDO",
+      "mid_price": 1.2567,
+      "spread_bps": 9.999999999999114,
+      "volume_24h": 1335468.74206,
+      "open_interest": 193354.0,
+      "liquidity_score": 15.496558168240888,
+      "mm_score": 23.32217885236133,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795335"
+    },
+    {
+      "symbol": "LTC",
+      "mid_price": 119.53,
+      "spread_bps": 9.999999999999787,
+      "volume_24h": 1356111.6216,
+      "open_interest": 3650.82,
+      "liquidity_score": 15.427367142400215,
+      "mm_score": 23.14251104160032,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795571"
+    },
+    {
+      "symbol": "UNI",
+      "mid_price": 8.3605,
+      "spread_bps": 9.999999999998133,
+      "volume_24h": 1310427.0128,
+      "open_interest": 39265.0,
+      "liquidity_score": 15.273120051201868,
+      "mm_score": 22.9253860768028,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795568"
+    },
+    {
+      "symbol": "CRV",
+      "mid_price": 0.78765,
+      "spread_bps": 9.999999999998956,
+      "volume_24h": 676166.57486,
+      "open_interest": 386463.2,
+      "liquidity_score": 13.013836859441046,
+      "mm_score": 19.675340569161566,
+      "tier": "Tier 3",
+      "timestamp": "2025-10-06T18:58:01.795564"
+    }
+  ]
+}

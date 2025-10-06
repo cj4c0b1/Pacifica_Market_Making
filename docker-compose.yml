@@ -1,14 +1,36 @@
 networks:
   default:
     driver: bridge
+  pacifica-network:
+    driver: bridge
 
 services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: pacifica_dashboard
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    volumes:
+      - ./PACIFICA_data:/app/PACIFICA_data
+      - ./params:/app/params
+      - ./.env:/app/.env:ro
+    environment:
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+    restart: unless-stopped
+    networks:
+      - pacifica-network
+
   data-collector:
     build: .
     container_name: pacifica_data_collector
     environment:
       - RESTART_MINUTES=2
-    env_file:
       - .env
     volumes:
       - ./PACIFICA_data:/app/PACIFICA_data
